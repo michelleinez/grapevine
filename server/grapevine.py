@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template, url_for
 import json
 import requests
 import TorBE
@@ -10,8 +10,9 @@ app = Flask(__name__,static_url_path='')
 
 translated_results = {}
 
-@app.route('/grapevine')
+@app.route('/')
 def respond_to_request():
+	print "grapes"
 	search_term   = request.args.get('search_term')
 	country_codes = request.args.get('country_code')
 	news = {}
@@ -32,12 +33,10 @@ def respond_to_request():
 
 				news[country] = results
 
+	return construct_carousel()
 
-	return "hello world"
-#	return construct_carousel(news)
-
-def construct_carousel(news_list):
-	render = render_template('templates/childtemplate.html', name=name)
+def construct_carousel(name=None):
+	render = render_template('./childtemplate.html', name=name)
 	print render
 	return render
 
