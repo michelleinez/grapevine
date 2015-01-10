@@ -20,16 +20,9 @@ def respond_to_request():
 	return "hello world"
 #	return construct_carousel(news)
 
-def translate_into_local_language(search_term, country_code):
-	pass
-
-def make_request_thru_tor(search_term, country_code):
-	pass
-
 def construct_carousel(news_list):
 	pass
 
-	
 if __name__ == '__main__':
 	app.debug = True
 #	app.run()
