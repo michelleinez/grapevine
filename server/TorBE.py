@@ -19,21 +19,22 @@ def make_request_thru_tor(countryCode, url):
 
 	socks.getaddrinfo = getaddrinfo
 
-	print "Starting to configure tor"
+	print "Starting to configure tor..."
 	# make sure that a secondary tor process is not running!
 	try:
 		tor_config = stem.process.launch_tor_with_config(
 			config = {"SocksPort" : str(PORT), "ExitNodes" : "{" + countryCode + "}"})
 	except:
-		tor_config.kill()
+		#tor_config.kill()
+		print "make sure that a secondary tor process is not running!"
 
 	print "Querying",url
 	query(url, countryCode)
 
 	tor_config.kill()
 
-def main():
-	make_request_thru_tor("ru", "http://my.kirby.org/accounts/login")
-	#make_request_thru_tor("ru", "http://my-ip.heroku.com")
+#def main():
+#	make_request_thru_tor("us", "http://my.kirby.org/accounts/login")
+	#make_request_thru_tor("us", "http://my-ip.heroku.com")
 
-if __name__ == '__main__' : main()
+#if __name__ == '__main__' : main()
