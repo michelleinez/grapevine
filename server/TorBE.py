@@ -29,9 +29,3 @@ def make_request_thru_tor(countryCode, url):
 	query(url, countryCode)
 
 	tor_config.kill()
-
-def main():
-#	make_request_thru_tor("us", "http://my.kirby.org/accounts/login")
-   make_request_thru_tor("us", "http://my-ip.heroku.com")
-
-if __name__ == '__main__' : main()
