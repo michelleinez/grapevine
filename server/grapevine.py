@@ -10,11 +10,12 @@ def respond_to_request():
 	search_term = request.args.get('search_term')
 	country_codes = request.args.get('country_code')
 	news = []
-	for country in country_codes:
-		translated_search_term = translate_into_local_language(search_term, country)
-		news.append(make_request_thru_tor(translated_search_term, country))
-
-	return construct_carousel(news)
+	if(country_codes):
+		for country in country_codes:
+			translated_search_term = translate_into_local_language(search_term, country)
+			news.append(make_request_thru_tor(translated_search_term, country))
+	return "hello world"
+#	return construct_carousel(news)
 
 def translate_into_local_language(search_term, country_code):
 	pass
