@@ -21,7 +21,9 @@ def respond_to_request():
 #	return construct_carousel(news)
 
 def construct_carousel(news_list):
-	pass
+	render = render_template('templates/childtemplate.html', name=name)
+	print render
+	return render
 
 if __name__ == '__main__':
 	app.debug = True
