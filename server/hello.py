@@ -3,7 +3,7 @@ app = Flask(__name__,static_url_path='/static')
 
 @app.route('/')
 def render(name=None):
-    render = render_template('./childtemplate.html', name=name)
+    render = render_template('./form.html', name=name)
     print render
     return render
 
