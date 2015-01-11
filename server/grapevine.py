@@ -316,7 +316,7 @@ def construct_carousel(news):
 	listlength=len(title)
 	num_countries=len(news.keys()) 
 	print listlength
-	render = render_template('./carouseltemplate.html', countryname=countryname, name=name, news=news, listlength=listlength, num_countries=num_countries, url=url, title=title, content=content)
+	render = render_template('./carouseltemplate.html', countryname=countryname, news=news, listlength=listlength, num_countries=num_countries, url=url, title=title, content=content)
 
 	return render
 
