@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    {% block head %}
+<meta charset="UTF-8">
+
+  <title>GrapeVine</title>
+
+  <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css'>
+
+    <link rel="stylesheet" href="static/css/style.css" media="screen" type="text/css" />
+    {% endblock %}
+</head>
+<body>
+    <div id="content">{% block carouselcontent %}{% endblock %}</div>
+    <div id="footer">
+        {% block footer %}
+        &copy; Copyright 2015 by <a href="http://google/">12Pandas!</a>.
+        {% endblock %}
+    </div>
+    {% block footerscripts %}
+    {% endblock %}
+</body>
