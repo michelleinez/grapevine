@@ -14,26 +14,29 @@ translated_results = {}
 
 @app.route('/')
 def respond_to_request():
-	print "grapes"
-	search_term   = request.args.get('search_term')
-	country_codes = request.args.get('country_code')
+	search_term     = request.args.get('search_term')
+	country_codes   = request.args.get('country_code')
+
 	news = {}
 	if(country_codes):
 		for country in country_codes:
-				translated_search_term = Translate.translate_into_local_language(search_term, country)
+				translation_result = Translate.translate_into_local_language(search_term, country)
+				print json.dumps(translation_result, indent = 4, separators=(',', ': '))
+
+				translated_search_term  = translation_result['data']['translations'][0]['translatedText']
 				url = 'https://ajax.googleapis.com/ajax/services/search/news?v=1.0&q=%s' % translated_search_term
 				news_dict = TorBE.make_request_thru_tor(url, country)
 				results = []
 				for result in news_dict['responseData']['results']:
-					results.append({result['title'], result['url'], result['comment']})
+					results.append({'title': result['title'],'url':result['url'], 'content':result['content']})
 					
 					translated_title   = 'https://www.googleapis.com/language/translate/v2?key=%s&q=%s&source=en&target=%s' % (API_KEY, results[result['title']], country)
 					translated_url     = 'https://www.googleapis.com/language/translate/v2?key=%s&q=%s&source=en&target=%s' % (API_KEY, results[result['url']], country)
-					translated_snippet = 'https://www.googleapis.com/language/translate/v2?key=%s&q=%s&source=en&target=%s' % (API_KEY, results[result['snippet']], country)
+					translated_snippet = 'https://www.googleapis.com/language/translate/v2?key=%s&q=%s&source=en&target=%s' % (API_KEY, results[result['content']], country)
 
-					translated_results.append({result[translated_title], result[translated_url], result[translated_snippet]})
+					translated_results.append({'title': result[translated_title], 'url': result[translated_url], 'content': result[translated_snippet]})
 
-				news[country] = results
+				news[country] = translated_results
 
 	return construct_carousel()
 
@@ -51,21 +54,3 @@ if __name__ == '__main__':
 	app.debug = True
 #	app.run()
 	app.run('0.0.0.0')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
