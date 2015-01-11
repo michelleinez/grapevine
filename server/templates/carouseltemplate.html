@@ -1,0 +1,24 @@
+{% extends "childtemplate.html" %}
+{% block carouseltemplate %}
+
+								{% for j in range(listlength) %}
+
+								{% if (j is divisibleby num_countries) and (j > 0) %}
+		                    		</ul>
+								</div> <!-- new page after active slide-->
+								<div class="item active"> <!-- new page after active slide-->
+                            		<ul class="thumbnails">
+								{% endif %}
+
+                                <li class="span3">
+                                    <h4>{{country_codes[1]}}</h4>
+                                        <div class="caption">
+                                        <h4>{{title[j]}}</h4>
+                                        {{content[j]}}
+                                        <a class="btn btn-mini" href="{{url[j]}}">&raquo; Read More </a>
+                                    </div>
+                                </li>
+
+                                {% endfor %}
+
+{% endblock %}

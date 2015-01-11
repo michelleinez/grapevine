@@ -173,7 +173,7 @@ class socksocket(socket.socket):
 		else:
 			# No username/password were entered, therefore we
 			# only support connections with no authentication.
-			self.sendall("\x05\x01\x00")
+			self.sendall(b"\x05\x01\x00".decode())
 		# We'll receive the server's response to determine which
 		# method was selected
 		chosenauth = self.__recvall(2)
