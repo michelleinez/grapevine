@@ -3,14 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     {% block head %}
-    <link rel="stylesheet" href="style.css" />
-    <link rel="javascript" href="carousel.js" />
+<meta charset="UTF-8">
+
+  <title>GrapeVine</title>
+
+  <link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.1/css/bootstrap.min.css'>
+
+    <link rel="stylesheet" href="static/css/style.css" media="screen" type="text/css" />
+    {% endblock %}
 </head>
 <body>
-    <div id="content">{% block content %}{% endblock %}</div>
+    <div id="content">{% block carouselcontent %}{% endblock %}</div>
     <div id="footer">
         {% block footer %}
         &copy; Copyright 2015 by <a href="http://google/">12Pandas!</a>.
         {% endblock %}
     </div>
+    {% block footerscripts %}
+    {% endblock %}
 </body>
