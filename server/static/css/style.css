@@ -1,12 +1,13 @@
 /* Global */
 body {
-    background: #3399cc;
+    background: none repeat scroll 0 0 #336699;
     padding: 40px;
-}  
+}
 
 img { max-width:100%; }
 
 a {
+    color:#3B3B3B;
 	-webkit-transition: all 150ms ease;
 	-moz-transition: all 150ms ease;
 	-ms-transition: all 150ms ease;
@@ -16,10 +17,15 @@ a {
     a:hover {
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; /* IE 8 */
         filter: alpha(opacity=50); /* IE7 */
-        opacity: 0.6;
+        opacity: 0.9;
         text-decoration: none;
+        color:#3B3B3B;
     }
 
+select[multiple], select[size] {
+    height: 100%;
+    width: 100%;
+}
 
 /* Container */
 .container-fluid {
@@ -28,17 +34,18 @@ a {
     padding: 20px 40px 0;
     /*max-width: 960px;*/
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    min-height: 80vh;
 }
 
 
 /* Page Header */
 .page-header {
     background: #f9f9f9;
+    text-align:center;
     margin: -30px -40px 40px;
     padding: 10px 10px;
     border-top: 4px solid #ccc;
-    color: #999;
-    /*text-transform: uppercase;*/
+    color: #656464;
     }
     .page-header h3 {
         line-height: 0.88rem;
@@ -48,6 +55,14 @@ a {
 
 
 /* Thumbnail Box */
+.caption {
+    border: solid #eee;
+    padding:5px;
+    height:300px;
+    overflow:scroll;
+    border-width: 1px;
+
+}
 .caption h4 {
     font-size: 1rem;
     color: #444;
@@ -61,7 +76,6 @@ a {
         .btn.btn-mini {
             font-size: 0.63rem;
             }
-
 
 /* Carousel Control */
 .control-box {

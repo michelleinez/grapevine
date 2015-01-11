@@ -12,7 +12,7 @@ def getaddrinfo(*args):
 
 def query(url):
 	response = json.loads(requests.get(url).text)
-	print  json.dumps(response, indent=4, separators=(',',': '))
+	#print  json.dumps(response, indent=4, separators=(',',': '))
 	return response
 #	print requests.get(url).text	
 
