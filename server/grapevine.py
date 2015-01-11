@@ -12,14 +12,16 @@ translated_results = {}
 
 @app.route('/')
 def respond_to_request():
-	print "grapes"
+	print ("grapes")
 	search_term   = request.args.get('search_term')
 	country_codes = request.args.get('country_code')
 	news = {}
 	if(country_codes):
 		for country in country_codes:
 				translated_search_term = Translate.translate_into_local_language(search_term, country)
+				print(translated_search_term)
 				url = 'https://ajax.googleapis.com/ajax/services/search/news?v=1.0&q=%s' % translated_search_term
+				print(url)
 				news_dict = TorBE.make_request_thru_tor(url, country)
 				results = []
 				for result in news_dict['responseData']['results']:
@@ -37,7 +39,8 @@ def respond_to_request():
 
 def construct_carousel(name=None):
 	render = render_template('./childtemplate.html', name=name)
-	print render
+	print (render)
+
 	return render
 
 if __name__ == '__main__':
