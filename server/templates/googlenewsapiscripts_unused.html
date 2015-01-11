@@ -1,0 +1,33 @@
+	<!--google news api scripts-->
+	<script src="https://www.google.com/jsapi"
+        type="text/javascript"></script>
+    <script type="text/javascript">
+      google.load("search", "1");
+
+      // Call this function when the page has been loaded
+      function initialize() {
+        var searchControl = new google.search.SearchControl();
+        searchControl.addSearcher(new google.search.NewsSearch());
+
+        // create a drawOptions object
+		var drawOptions = new google.search.DrawOptions();
+
+		// tell the searcher to draw itself in tabbed mode
+		drawOptions.setDrawMode(google.search.SearchControl.DRAW_MODE_TABBED);
+		searchControl.draw(document.getElementById("searchcontrol"));
+
+        //searchControl.draw(document.getElementById("searchcontrol"));
+      }
+      google.setOnLoadCallback(initialize);// establish a keep callback
+		
+	  searchControl.setOnKeepCallback(this, MyKeepHandler);
+
+      function MyKeepHandler(result) {
+	  // clone the result html node
+	  var node = result.html.cloneNode(true);
+
+      // attach it
+	  var savedResults = document.getElementById("saved_results");
+	  savedResults.appendChild(node);
+	  }
+    </script>
