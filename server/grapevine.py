@@ -181,23 +181,25 @@ def respond_to_request():
 				results = []
 				translated_results = []
 				for result in news_dict['responseData']['results']:
-					results.append({'title': result['title'],'url':result['url'], 'content':result['content']})
+					results.append({'title': result['titleNoFormatting'],'url':result['url'], 'content':result['content']})
 					
-					print 'result', result
+#					print 'result', result
 
-					translated_title   = Translate.translate_into_local_language(result['title'], lang_Code, 'en')
-					translated_snippet = Translate.translate_into_local_language(result['content'], lang_Code, 'en')
+#					translated_title   = Translate.translate_into_local_language(result['titleNoFormatting'], lang_Code, 'en')
+#					translated_snippet = Translate.translate_into_local_language(result['content'], lang_Code, 'en')
 
-					translated_results.append({'title': translated_title, 'url': result['url'], 'content': translated_snippet})
+#					translated_results.append({'title': translated_title, 'url': result['url'], 'content': translated_snippet})
 
-					print translated_results
+#					print translated_results
 
-				news[country] = translated_results
+#				news[country] = translated_results
+				news[country] = results
 
-		construct_carousel(news)
+		return construct_carousel(news)
 
 
 def construct_carousel(news):
+	print "news", news
 	title = []
 	url = []
 	content = []
@@ -207,9 +209,12 @@ def construct_carousel(news):
 	for country in news.keys(): #for every news item...
 		print country
 		for story in news[country]:		
-			title.append(Markup((story['title']).decode('unicode-escape')))
-			url.append(Markup((story['url']).decode('unicode-escape')))
-			content.append(Markup((story['content']).decode('unicode-escape')))
+			#title.append(Markup((story['title']).decode('unicode-escape')))
+			#url.append(Markup((story['url']).decode('unicode-escape')))
+			#content.append(Markup((story['content']).decode('unicode-escape')))
+			title.append(story['title'])
+			url.append(story['url'])
+			content.append(story['content'])
 
 	print "title"+str(title)
 	print "url"+str(url)
@@ -217,7 +222,7 @@ def construct_carousel(news):
 	listlength=len(title)
 	num_countries=len(news.keys()) 
 	print listlength
-	render = render_template('./carouseltemplate.html', country_codes=country_codes, name=name, news=news, listlength=listlength, num_countries=num_countries, url=url, title=title, content=content)
+	render = render_template('./carouseltemplate.html', country_codes=country_codes, news=news, listlength=listlength, num_countries=num_countries, url=url, title=title, content=content)
 
 	return render
 
