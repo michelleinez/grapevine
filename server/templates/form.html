@@ -1,34 +1,39 @@
+{% extends "basetemplate.html" %}
 <!DOCTYPE HTML>
 <html>
-	<form>
-		Search Query:<br>
-		<input type="text" name="Search Query" id ="searchquery">
-		<br>
-		Country Code:<br>
-		<select multiple="multiple" id="sel">
-		  <option value="United States">United States</option>
-		  <option value="Canada">Canada</option>
-		  <option value="Russia">Russia</option>
-		</select>
-		<input type="button" value="Search" onclick="getValues()" />
-		<input type="text" name="Country Code" id="country_code">
-		<script type="text/javascript">
-			var country_codes = ["us", "ca", "ru"];
-			var x = document.getElementById("sel");
+{% block form %}
+	<div style="">
+		<form>
+			Search Query:<br>
+			<input type="text" name="Search Query" id ="searchquery">
+			<br>
+			Country Code:<br>
+			<select multiple="multiple" id="sel">
+			  <option value="United States">United States</option>
+			  <option value="Canada">Canada</option>
+			  <option value="Russia">Russia</option>
+			</select>
+			<input type="button" value="Search" onclick="getValues()" />
+			<input type="text" name="Country Code" id="country_code">
+			<script type="text/javascript">
+				var country_codes = ["us", "ca", "ru"];
+				var x = document.getElementById("sel");
 
-			function getValues()
-			{
-				var search_query = document.getElementById('searchquery').value;
-				for(var i = 0; i < x.options.length; i++)
+				function getValues()
 				{
-					if(x.options[i].selected == true)
+					var search_query = document.getElementById('searchquery').value;
+					for(var i = 0; i < x.options.length; i++)
 					{
-						var url = "http://0.0.0.0:5000/?search_term=" + search_query + "&country_code=" + country_codes[i];
-						console.log(url);
+						if(x.options[i].selected == true)
+						{
+							var url = "http://0.0.0.0:5000/?search_term=" + search_query + "&country_code=" + country_codes[i];
+							console.log(url);
+						}
 					}
 				}
-			}
 
-		</script>
-	</form>
+			</script>
+		</form>
+	</div>
+	{% endblock %}
 </html>

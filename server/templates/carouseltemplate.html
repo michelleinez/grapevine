@@ -11,7 +11,9 @@
 								{% endif %}
 
                                 <li class="span3">
-                                    <h4>{{country_codes[1]}}</h4>
+                                	{% if (j < 4) %}
+                                    <h4>{{countryname[j]}}</h4>
+                                    {% endif %}
                                         <div class="caption">
                                         <h4>{{title[j]}}</h4>
                                         {{content[j]}}
