@@ -5,7 +5,7 @@ import json
 import stem.process
 
 PORT = 7000
-	
+
 # DNS resolution
 def getaddrinfo(*args):
 	return [(socket.AF_INET, socks.SOCK_STREAM, 6, "", (args[0], args[1]))]
@@ -24,6 +24,8 @@ def make_request_thru_tor(countryCode, url):
 	# make sure that a secondary tor process is not running!
 	tor_config = stem.process.launch_tor_with_config(
 		config = {"SocksPort" : str(PORT), "ExitNodes" : "{" + countryCode + "}"})
+
+
 
 	results = query(url)
 
