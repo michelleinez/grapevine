@@ -12,25 +12,25 @@ def getaddrinfo(*args):
 
 def query(url):
 	response = json.loads(requests.get(url).text)
-	print json.dumps(response, indent=4, separators=(',',': '))
+	print (json.dumps(response, indent=4, separators=(',',': ')))
 
 # a list of country codes can be found here: https://b3rn3d.herokuapp.com/blog/2014/03/05/tor-country-codes
 def make_request_thru_tor(countryCode, url):
-	print "Connecting to tor..."
+	print ("Connecting to tor...")
 	socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", PORT)
 	socket.socket = socks.socksocket
 
 	socks.getaddrinfo = getaddrinfo
 
-	print "Starting to configure tor..."
+	print ("Starting to configure tor...")
 	# make sure that a secondary tor process is not running!
 	tor_config = stem.process.launch_tor_with_config(
 		config = {"SocksPort" : str(PORT), "ExitNodes" : "{" + countryCode + "}"})
 
-	print "Querying",url
+	print ("Querying",url)
 	query(url)
 
 	tor_config.kill()
 
 if __name__ == '__main__':
-	make_request_thru_tor("ru", 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=paris')
+	make_request_thru_tor("ru", 'https://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=paris&tbm=nws')
