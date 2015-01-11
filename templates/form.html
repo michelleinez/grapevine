@@ -6,15 +6,116 @@
 		<br>
 		Country Code:<br>
 		<select multiple="multiple" id="sel">
-		  <option value="United States">United States</option>
-		  <option value="Canada">Canada</option>
-		  <option value="Russia">Russia</option>
 		</select>
 		<input type="button" value="Search" onclick="getValues()" />
-		<input type="text" name="Country Code" id="country_code">
 		<script type="text/javascript">
-			var country_codes = ["us", "ca", "ru"];
+			var country_codes = [
+								["ALBANIA","AL"],
+								["ALGERIA","DZ"],
+								["ARGENTINA","AR"],
+								["AUSTRALIA","AU"],
+								["AUSTRIA","AT"],
+								["BAHRAIN","BH"],
+								["BELARUS","BY"],
+								["BELGIUM","BE"],
+								["BELIZE","BZ"],
+								["PLURINATIONAL STATE OF BOLIVIA","BO"],
+								["BRAZIL","BR"],
+								["BRUNEI DARUSSALAM","BN"],
+								["BULGARIA","BG"],
+								["CANADA","CA"],
+								["CHILE","CL"],
+								["CHINA","CN"],
+								["COLOMBIA","CO"],
+								["COSTA RICA","CR"],
+								["CROATIA","HR"],
+								["CZECH REPUBLIC","CZ"],
+								["DENMARK","DK"],
+								["DOMINICAN REPUBLIC","DO"],
+								["ECUADOR","EC"],
+								["EGYPT","EG"],
+								["EL SALVADOR","SV"],
+								["ESTONIA","EE"],
+								["FINLAND","FI"],
+								["FRANCE","FR"],
+								["GEORGIA","GE"],
+								["GERMANY","DE"],
+								["GREECE","GR"],
+								["GUATEMALA","GT"],
+								["HONDURAS","HN"],
+								["HONG KONG","HK"],
+								["HUNGARY","HU"],
+								["ICELAND","IS"],
+								["INDIA","IN"],
+								["INDONESIA","ID"],
+								["ISLAMIC REPUBLIC OF IRAN","IR"],
+								["IRAQ","IQ"],
+								["IRELAND","IE"],
+								["ITALY","IT"],
+								["JAMAICA","JM"],
+								["JAPAN","JP"],
+								["JORDAN","JO"],
+								["KENYA","KE"],
+								["KOREA REPUBLIC OF","KR"],
+								["KUWAIT","KW"],
+								["LATVIA","LV"],
+								["LEBANON","LB"],
+								["LIBYA","LY"],
+								["LIECHTENSTEIN","LI"],
+								["LITHUANIA","LT"],
+								["LUXEMBOURG","LU"],
+								["MACAO","MO"],
+								["MACEDONIA THE FORMER YUGOSLAV REPUBLIC OF","MK"],
+								["MALAYSIA","MY"],
+								["MEXICO","MX"],
+								["MONACO","MC"],
+								["MOROCCO","MA"],
+								["NETHERLANDS","NL"],
+								["NEW ZEALAND","NZ"],
+								["NICARAGUA","NI"],
+								["OMAN","OM"],
+								["PAKISTAN","PK"],
+								["PANAMA","PA"],
+								["PARAGUAY","PY"],
+								["PERU","PE"],
+								["PHILIPPINES","PH"],
+								["POLAND","PL"],
+								["PORTUGAL","PT"],
+								["PUERTO RICO","PR"],
+								["QATAR","QA"],
+								["ROMANIA","RO"],
+								["RUSSIAN FEDERATION","RU"],
+								["SAUDI ARABIA","SA"],
+								["SINGAPORE","SG"],
+								["SLOVAKIA","SK"],
+								["SLOVENIA","SI"],
+								["SOUTH AFRICA","ZA"],
+								["SPAIN","ES"],
+								["SWEDEN","SE"],
+								["SWITZERLAND","CH"],
+								["SYRIAN ARAB REPUBLIC","SY"],
+								["TAIWAN PROVINCE OF CHINA","TW"],
+								["THAILAND","TH"],
+								["TRINIDAD AND TOBAGO","TT"],
+								["TUNISIA","TN"],
+								["TURKEY","TR"],
+								["UKRAINE","UA"],
+								["UNITED ARAB EMIRATES","AE"],
+								["UNITED KINGDOM","GB"],
+								["UNITED STATES","US"],
+								["URUGUAY","UY"],
+								["VENEZUELA BOLIVARIAN REPUBLIC OF","VE"],
+								["YEMEN","YE"]];
 			var x = document.getElementById("sel");
+
+			var sel = document.getElementById('sel');
+			for(var i = 0; i < country_codes.length; i++) 
+			{
+			    var opt = document.createElement('option');
+			    opt.innerHTML = country_codes[i];
+			    opt.value = country_codes[i];
+			    sel.appendChild(opt);
+			}
 
 			function getValues()
 			{
@@ -23,12 +124,12 @@
 				{
 					if(x.options[i].selected == true)
 					{
-						var url = "http://0.0.0.0:5000/?search_term=" + search_query + "&country_code=" + country_codes[i];
+						var url = "http://0.0.0.0:5000/?search_term=" + search_query + "&country_code=" + country_codes[i][1];
+						window.location.href = url
 						console.log(url);
 					}
 				}
 			}
-
 		</script>
 	</form>
 </html>
