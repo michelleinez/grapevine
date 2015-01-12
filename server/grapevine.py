@@ -1,8 +1,9 @@
 from flask import Flask, request, render_template, url_for, Markup
+from multiprocessing import Process, Queue
 import HTMLParser
 import json
 import requests
-import TorBE
+import tor
 import Translate
 import urllib
 
@@ -143,53 +144,63 @@ def respond_to_request():
 									["sv","SE"],
 									["syr","SY"],
 									["ta","IN"],
-									["tt","RU"],
+									["ru","RU"],
 									["te","IN"],
 									["th","TH"],
 									["tr","TR"],
 									["uk","UA"],
 									["ur","PK"],
 									["vi","VN"]]
-	print (search_term)
-	print (country_codes)
+	print ('search_term', search_term)
+	print ('country_codes', country_codes)
 
 	news = {}
 	if(country_codes):
 		for country in country_codes:
-				print ('search_term', search_term)
-				print ('country', country.lower())
+			print ('search_term', search_term)
+			print ('country', country.lower())
 
-				lang_Code = []
-				print (country_codes_to_lang_code)
-				for lc in country_codes_to_lang_code:
-					if country.lower() == lc[1].lower():
-						lang_Code = lc[0]
+			lang_Code = []
+			for lc in country_codes_to_lang_code:
+				if country.lower() == lc[1].lower():
+					lang_Code = lc[0]
 
-				print 'lang_Code', lang_Code
+			print 'lang_Code', lang_Code
 
-				translation_result = Translate.translate_into_local_language(search_term, 'en', lang_Code)
-				print json.dumps(translation_result, indent = 4, separators=(',', ': '))
+			translation_result = Translate.translate_into_local_language(search_term, 'en', lang_Code)
+			#print json.dumps(translation_result, indent = 4, separators=(',', ': '))
 
-				print (translation_result)
+			#print (translation_result)
 
-				translated_search_term  = translation_result['data']['translations'][0]['translatedText']
-				url = 'http://ajax.googleapis.com/ajax/services/search/news?v=1.0&q=%s' % translated_search_term
-				print url
-				news_dict = TorBE.make_request_thru_tor(country, url)
-				results = []
-				translated_results = []
-				for result in news_dict['responseData']['results']:
-					#results.append({'title': result['titleNoFormatting'],'url':result['url'], 'content':result['content']})
-					
-#					print 'result', result
+			translated_search_term  = translation_result['data']['translations'][0]['translatedText']
+			url = 'https://ajax.googleapis.com/ajax/services/search/news?v=1.0&q=%s' % translated_search_term
+			print url
 
-					translated_title   = Translate.translate_into_local_language(result['titleNoFormatting'], lang_Code, 'en')
-					translated_snippet = Translate.translate_into_local_language(result['content'], lang_Code, 'en')
 
-					translated_results.append({'title': translated_title, 'url': result['url'], 'content': translated_snippet})
+			q = Queue()
+			p = Process(target=TorBE.make_request_thru_tor, args=(country,url, q))
+			p.start()
+			news_dict = q.get()
+			p.join()
+			#print ('news_dict', news_dict)
 
-#					print translated_results
-				news[country] = translated_results
+
+			#news_dict = TorBE.make_request_thru_tor(country, url)
+			results = []
+			translated_results = []
+			for result in news_dict['responseData']['results']:
+				results.append({'title': result['titleNoFormatting'],'url':result['url'], 'content':result['content']})
+				
+#				print 'result', result
+
+#				translated_title   = Translate.translate_into_local_language(result['titleNoFormatting'], lang_Code, 'en')
+#				translated_snippet = Translate.translate_into_local_language(result['content'], lang_Code, 'en')
+#				translated_results.append({'title': translated_title, 'url': result['url'], 'content': translated_snippet})
+
+#				print translated_results
+#			news[country] = translated_results
+			print 'results for %s : %s' % (country, str(results))
+			news[country] = results
 
 		return construct_carousel(news)
 
@@ -296,9 +307,6 @@ def construct_carousel(news):
 
 	parser = HTMLParser.HTMLParser()
 
-
-	print countrycode_to_name["YE"]
-
 	title = []
 	url = []
 	content = []
@@ -310,13 +318,13 @@ def construct_carousel(news):
 	for country in news.keys(): #for every news item...
 		countries.append(country)
 		countryname.append(countrycode_to_name[country])
-		for story in news[country]:
-		#	title.append(Markup((story['title']).decode('unicode-escape')))
-		#	url.append(Markup((story['url']).decode('unicode-escape')))
-		#	content.append(Markup((story['content']).decode('unicode-escape')))
-			title.append(parser.unescape(story['title']))
-			url.append(urllib.unquote(story['url']))
-			content.append(parser.unescape(story['content']))
+
+
+	for i in range(4):
+		for country in news.keys(): #for every news item...
+			title.append(parser.unescape(news[country][i]['title']))
+			url.append(urllib.unquote(news[country][i]['url']))
+			content.append(parser.unescape(news[country][i]['content']))
 	print "countryname"+str(countryname)
 	print "title"+str(title)
 	print "url"+str(url)
@@ -337,5 +345,6 @@ def render(name=None):
 
 if __name__ == '__main__':
 	app.debug = True
+	app.threaded = False
 #	app.run()
 	app.run('0.0.0.0')

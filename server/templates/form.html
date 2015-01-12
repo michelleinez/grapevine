@@ -133,11 +133,12 @@
 			function getValues()
 			{
 				var search_query = document.getElementById('searchquery').value;
+				var url = "http://0.0.0.0:5000/search?search_term=" + search_query;
 				for(var i = 0; i < x.options.length; i++)
 				{
 					if(x.options[i].selected == true)
 					{
-						var url = "http://0.0.0.0:5000/search?search_term=" + search_query + "&country_code=" + country_codes[i][1];
+						url +=  "&country_code=" + country_codes[i][1];
 						window.location.href = url
 						console.log(url);
 					}

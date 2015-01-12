@@ -3,6 +3,7 @@ import socket
 import requests
 import json
 import stem.process
+import copy
 
 PORT = 7000
 
@@ -17,7 +18,7 @@ def query(url):
 #	print requests.get(url).text	
 
 # a list of country codes can be found here: https://b3rn3d.herokuapp.com/blog/2014/03/05/tor-country-codes
-def make_request_thru_tor(countryCode,url):
+def make_request_thru_tor(countryCode,url, queue):
 	socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, "127.0.0.1", PORT)
 	socket.socket = socks.socksocket
 
@@ -29,11 +30,13 @@ def make_request_thru_tor(countryCode,url):
 	print 'url', url
 
 	# make sure that a secondary tor process is not running!
-	tor_config = stem.process.launch_tor_with_config(timeout=None, 
+	tor_config = stem.process.launch_tor_with_config(#timeout=None, 
 		config = {"SocksPort" : str(PORT), "ExitNode" : str(exitNodes)},)
 
 	results = query(url)
 
 	tor_config.kill()
+
+	queue.put(results)
 
 	return results
