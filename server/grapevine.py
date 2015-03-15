@@ -178,7 +178,7 @@ def respond_to_request():
 
 
 			q = Queue()
-			p = Process(target=TorBE.make_request_thru_tor, args=(country,url, q))
+			p = Process(target=tor.make_request_thru_tor, args=(country,url, q))
 			p.start()
 			news_dict = q.get()
 			p.join()
